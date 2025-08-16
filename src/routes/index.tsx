@@ -11,7 +11,7 @@ export default function AppRoutes() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={user.id ? <Navigate to="/chat" /> : <Login />} />
+        <Route path="/" element={user.id ? <Navigate to="/chat" /> : <Login onLogin={() => {}} />} />
         <Route path="/register" element={user.id ? <Navigate to="/chat" /> : <Register />} />
         <Route path="/chat" element={user.id ? <Chat/> : <Navigate to="/" />} />
         <Route path="*" element={<Navigate to="/" />} />
