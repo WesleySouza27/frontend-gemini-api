@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { api } from '../../services/api';
 import { Container, ChatBox, MessageInput, SendButton } from './Chat.styles';
+import { useSelector } from 'react-redux';
+import type { RootState } from '../../store';
 
 interface Message {
   id: number;
@@ -9,17 +11,17 @@ interface Message {
   createdAt: string;
 }
 
-interface ChatProps {
-  user: { id: number; username: string };
-}
 
-const Chat: React.FC<ChatProps> = ({ user }) => {
+const Chat: React.FC = () => {
+
+  const user = useSelector((state: RootState) => state.user);
+
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    api.get(`/message/${user.id}`).then(res => setMessages(res.data));
+    api.get(`/message/userId=${user.id}`).then(res => setMessages(res.data));
   }, [user.id]);
 
   const sendMessage = async (e: React.FormEvent) => {
@@ -30,7 +32,7 @@ const Chat: React.FC<ChatProps> = ({ user }) => {
       // Envia exatamente o formato esperado pela API
       const res = await api.post('/message', {
         content: input,
-        userId: user.id,
+        userId: String(user.id),
       });
       setMessages(prev => [...prev, res.data]);
       setInput('');

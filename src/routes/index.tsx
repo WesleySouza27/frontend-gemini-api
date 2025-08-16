@@ -2,17 +2,18 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Login from '../pages/login/Login';
 import Register from '../pages/register/register';
 import Chat from '../pages/Chat/Chat';
-import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import type { RootState } from '../store';
 
 export default function AppRoutes() {
-  const [user, setUser] = useState<{ id: number; username: string } | null>(null);
+  const user = useSelector((state: RootState) => state.user);
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={user ? <Navigate to="/chat" /> : <Login onLogin={setUser} />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/chat" element={user ? <Chat user={user} /> : <Navigate to="/" />} />
+        <Route path="/" element={user.id ? <Navigate to="/chat" /> : <Login />} />
+        <Route path="/register" element={user.id ? <Navigate to="/chat" /> : <Register />} />
+        <Route path="/chat" element={user.id ? <Chat/> : <Navigate to="/" />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </BrowserRouter>

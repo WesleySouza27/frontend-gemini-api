@@ -2,12 +2,16 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../../services/api';
 import { Container, Form, Input, Button, LinkStyled } from './Login.styles';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../../store/userSlice';
 
 interface LoginProps {
   onLogin: (user: { id: number; username: string }) => void;
 }
 
-const Login: React.FC<LoginProps> = ({ onLogin }) => {
+const Login: React.FC<LoginProps> = () => {
+  const dispatch = useDispatch();
+  
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -18,7 +22,9 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
     setError('');
     try {
       const res = await api.post('/user/login', { username, password });
-      onLogin(res.data); // res.data deve conter id e username
+      dispatch(setUser({ id: String(res.data.userId), username: res.data.userName }));
+      alert('Login realizado com sucesso!');
+      navigate('/chat');
     } catch {
       setError('Erro ao fazer login');
     }
