@@ -7,6 +7,9 @@ export const Container = styled.div`
   display: flex;
   align-items: stretch;
   color: ${({ theme }) => theme.text};
+  @media (max-width: 700px) {
+    flex-direction: column;
+  }
 `;
 
 export const Sidebar = styled.aside`
@@ -30,12 +33,19 @@ export const Title = styled.h2`
   margin-bottom: 2rem;
   font-weight: 700;
   letter-spacing: 1px;
+  @media (max-width: 700px) {
+    margin: 0;
+    font-size: 1.2rem;
+  }
 `;
 
 export const UserGreeting = styled.div`
   color: ${({ theme }) => theme.messageBotText};
   font-size: 1rem;
   text-align: center;
+  @media (max-width: 700px) {
+    display: none;
+  }
 `;
 
 export const ThemeButton = styled.button`
@@ -46,6 +56,10 @@ export const ThemeButton = styled.button`
   cursor: pointer;
   font-size: 1rem;
   align-self: center;
+  @media (max-width: 700px) {
+    margin-top: 0;
+    font-size: 1.3rem;
+  }
 `;
 
 export const LogoutButton = styled.button`
@@ -67,6 +81,13 @@ export const LogoutButton = styled.button`
   }
   svg {
     font-size: 1.5rem;
+  }
+  @media (max-width: 700px) {
+    position: static;
+    font-size: 1.3rem;
+    font-weight: 400;
+    gap: 4px;
+    padding: 0;
   }
 `;
 
@@ -102,6 +123,13 @@ export const Message = styled.div<{ isBot?: boolean }>`
   max-width: 70%;
   font-size: 1.1rem;
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+
+  pre, code {
+    white-space: pre-wrap;
+    word-break: break-word;
+    overflow-x: auto;
+    background: ${({ theme }) => theme.inputBg};
+  }
 `;
 
 export const InputContainer = styled.form`
@@ -139,7 +167,7 @@ export const Input = styled.input`
 export const Button = styled.button`
   background: ${({ theme }) => theme.accent};
   color: #fff;
-  padding: 0.85rem 1.5rem;
+  padding: 0.85rem 1rem;
   border: none;
   border-radius: 24px;
   font-size: 1.1rem;
@@ -176,5 +204,20 @@ export const BotLoading = styled.div`
     border-radius: 50%;
     display: inline-block;
     animation: ${spin} 0.8s linear infinite;
+  }
+`;
+
+export const MobileHeader = styled.header`
+  display: none;
+  @media (max-width: 700px) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: ${({ theme }) => theme.sidebar};
+    padding: 1rem 1.2rem;
+    border-bottom: 1px solid #282828;
+    position: sticky;
+    top: 0;
+    z-index: 10;
   }
 `;
