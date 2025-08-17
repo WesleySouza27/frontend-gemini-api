@@ -22,7 +22,7 @@ const Login: React.FC<LoginProps> = () => {
     setError('');
     try {
       const res = await api.post('/user/login', { username, password });
-      dispatch(setUser({ id: res.data.userId, username: res.data.userName }));
+      dispatch(setUser({ id: res.data.userId, username: res.data.username }));
       console.log('Login realizado com sucesso:', res.data);
       alert('Login realizado com sucesso!');
       navigate('/chat');

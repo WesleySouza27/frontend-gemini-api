@@ -12,13 +12,17 @@ import {
   Input,
   Button,
   BotLoading,
-  LogoutButton
+  LogoutButton,
+  Title,
+  UserGreeting,
+  ThemeButton
 } from './Chat.styles';
-import LogoutIcon from '@mui/icons-material/Logout';
+// import LogoutIcon from '@mui/icons-material/Logout';
 import { useDispatch } from 'react-redux';
 import { logout } from '../../store/userSlice';
 import { useNavigate } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
+import { useThemeMode } from '../../styles/themeHook';
 
 interface MessageType {
   id: string;
@@ -33,6 +37,7 @@ const Chat: React.FC = () => {
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const { mode, toggle } = useThemeMode();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -76,20 +81,17 @@ const Chat: React.FC = () => {
   return (
     <Container>
       <Sidebar>
-        <h2 style={{
-          color: '#ff6600',
-          textAlign: 'center',
-          marginBottom: '2rem',
-          fontWeight: 700,
-          letterSpacing: '1px'
-        }}>
-          Chat Gemini
-        </h2>
-        <div style={{ color: '#fff', fontSize: '1rem', textAlign: 'center' }}>
+        <Title>Chat Growdev</Title>
+        <UserGreeting>
           Olá, {user.username}!
-        </div>
+        </UserGreeting>
+        <ThemeButton onClick={toggle}>
+          {mode === 'dark' ? '🌞 Tema Claro' : '🌙 Tema Escuro'}
+        </ThemeButton>
         <LogoutButton onClick={handleLogout}>
-          <LogoutIcon />
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M16 13v-2H7V8l-5 4 5 4v-3h9zM20 3h-8c-1.1 0-2 .9-2 2v4h2V5h8v14h-8v-4h-2v4c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/>
+          </svg>
           Sair
         </LogoutButton>
       </Sidebar>

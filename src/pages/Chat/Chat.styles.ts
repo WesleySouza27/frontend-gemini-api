@@ -3,15 +3,15 @@ import styled, { keyframes } from 'styled-components';
 export const Container = styled.div`
   height: 100vh;
   width: 100%;
-  background: #18181b;
+  background: ${({ theme }) => theme.background};
   display: flex;
   align-items: stretch;
-  color: #fff;
+  color: ${({ theme }) => theme.text};
 `;
 
 export const Sidebar = styled.aside`
   width: 240px;
-  background: #23232a;
+  background: ${({ theme }) => theme.sidebar};
   padding: 2rem 1rem 3.5rem 1rem;
   box-sizing: border-box;
   display: flex;
@@ -22,6 +22,30 @@ export const Sidebar = styled.aside`
   @media (max-width: 700px) {
     display: none;
   }
+`;
+
+export const Title = styled.h2`
+  color: ${({ theme }) => theme.accent};
+  text-align: center;
+  margin-bottom: 2rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+`;
+
+export const UserGreeting = styled.div`
+  color: ${({ theme }) => theme.messageBotText};
+  font-size: 1rem;
+  text-align: center;
+`;
+
+export const ThemeButton = styled.button`
+  margin-top: 2rem;
+  background: none;
+  border: none;
+  color: ${({ theme }) => theme.accent};
+  cursor: pointer;
+  font-size: 1rem;
+  align-self: center;
 `;
 
 export const LogoutButton = styled.button`
@@ -70,8 +94,8 @@ export const MessagesContainer = styled.div`
 
 export const Message = styled.div<{ isBot?: boolean }>`
   align-self: ${({ isBot }) => (isBot ? 'flex-start' : 'flex-end')};
-  background: ${({ isBot }) => (isBot ? '#23232a' : '#ff6600')};
-  color: #fff;
+  background: ${({ isBot, theme }) => (isBot ? theme.messageBot : theme.messageUser)};
+  color: ${({ isBot, theme }) => (isBot ? theme.messageBotText : '#fff')};
   padding: 15px 15px 15px 30px;
   margin: 0 20px 50px 20px;
   border-radius: 18px;
@@ -96,8 +120,8 @@ export const Input = styled.input`
   border: none;
   border-radius: 24px;
   font-size: 1rem;
-  background: #232323;
-  color: #fff;
+  background: ${({ theme }) => theme.inputBg};
+  color: ${({ theme }) => theme.inputText};
   outline: none;
   margin-right: 1rem;
   box-shadow: 0 1px 4px 0 rgba(255, 102, 0, 0.08);
@@ -113,7 +137,7 @@ export const Input = styled.input`
 `;
 
 export const Button = styled.button`
-  background: linear-gradient(90deg, #ff6600 60%, #ff8800 100%);
+  background: ${({ theme }) => theme.accent};
   color: #fff;
   padding: 0.85rem 1.5rem;
   border: none;
