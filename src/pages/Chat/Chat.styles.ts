@@ -117,7 +117,7 @@ export const Message = styled.div<{ isBot?: boolean }>`
   align-self: ${({ isBot }) => (isBot ? 'flex-start' : 'flex-end')};
   background: ${({ isBot, theme }) => (isBot ? theme.messageBot : theme.messageUser)};
   color: ${({ isBot, theme }) => (isBot ? theme.messageBotText : '#fff')};
-  padding: 15px 15px 15px 30px;
+  padding: 10px 10px 10px 10px;
   margin: 0 20px 50px 20px;
   border-radius: 18px;
   max-width: 70%;

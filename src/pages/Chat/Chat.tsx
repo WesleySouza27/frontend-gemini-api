@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import type { RootState } from '../../store';
-import { api } from '../../services/api';
 import {
   Container,
   Sidebar,
@@ -18,19 +17,20 @@ import {
   ThemeButton,
   MobileHeader
 } from './Chat.styles';
-// import LogoutIcon from '@mui/icons-material/Logout';
-import { useDispatch } from 'react-redux';
 import { logout } from '../../store/userSlice';
 import { useNavigate } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import { useThemeMode } from '../../styles/themeHook';
+import { io, Socket } from 'socket.io-client';
 
 interface MessageType {
-  id: string;
+  id?: string;
   content: string;
   isBot: boolean;
-  createdAt: string;
+  createdAt?: string;
 }
+
+const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || 'http://localhost:3030';
 
 const Chat: React.FC = () => {
   const user = useSelector((state: RootState) => state.user);
@@ -41,40 +41,68 @@ const Chat: React.FC = () => {
   const { mode, toggle } = useThemeMode();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const socketRef = useRef<Socket | null>(null);
 
+  // Carrega histórico inicial via REST
   useEffect(() => {
     if (user.id) {
-      api.get(`/message?userId=${user.id}`).then(res => setMessages(res.data));
+      import('../../services/api').then(({ api }) => {
+        api.get(`/message?userId=${user.id}`).then(res => setMessages(res.data));
+      });
     }
   }, [user.id]);
 
+  // Conecta ao socket e escuta mensagens
+  useEffect(() => {
+    if (!user.id) return;
+    const token = localStorage.getItem('access_token');
+    const socket = io(SOCKET_URL, {
+      auth: { token },
+      transports: ['websocket'],
+    });
+    socketRef.current = socket;
+
+    // Ao receber mensagem do bot
+    socket.on('receive_message', (msg: MessageType) => {
+      setMessages(prev => [...prev, msg]);
+      setLoading(false);
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, [user.id]);
+
+  // Scroll automático para o final das mensagens
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  const sendMessage = async (e: React.FormEvent) => {
+  const sendMessage = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!input.trim() || !user.id) return;
+    if (!input.trim() || !user.id || !socketRef.current) return;
     setLoading(true);
-    try {
-      const res = await api.post('/message', {
+
+    // Adiciona mensagem do usuário localmente
+    setMessages(prev => [
+      ...prev,
+      {
         content: input,
-        userId: String(user.id),
-      });
-      setMessages(prev => [
-        ...prev,
-        res.data.userMessage,
-        res.data.botMessage,
-      ]);
-      setInput('');
-    } catch {
-      alert('Erro ao enviar mensagem');
-    } finally {
-      setLoading(false);
-    }
+        isBot: false,
+        createdAt: new Date().toISOString(),
+      }
+    ]);
+
+    socketRef.current.emit('send_message', {
+      content: input,
+      userId: String(user.id),
+    });
+
+    setInput('');
   };
 
   const handleLogout = () => {
+    localStorage.removeItem('access_token');
     dispatch(logout());
     navigate('/');
   };
@@ -82,7 +110,7 @@ const Chat: React.FC = () => {
   return (
     <Container>
       <MobileHeader>
-        <Title>Chat Gemini</Title>
+        <Title>Chat Growdev</Title>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
           <ThemeButton onClick={toggle} aria-label="Alternar tema">
             {mode === 'dark' ? '🌞' : '🌙'}
@@ -111,8 +139,8 @@ const Chat: React.FC = () => {
       </Sidebar>
       <Main>
         <MessagesContainer>
-          {messages.map((msg) => (
-            <Message key={msg.id} isBot={msg.isBot}>
+          {messages.map((msg, idx) => (
+            <Message key={msg.id || idx} isBot={msg.isBot}>
               {msg.isBot
                 ? <ReactMarkdown>{msg.content}</ReactMarkdown>
                 : msg.content}
