@@ -58,7 +58,7 @@ Arquivos relevantes
 
 - Author - [Wesley Souza](https://www.linkedin.com/in/wesley-souza-/)
 
-- deploy - [frontend](https://app-mentorize-three.vercel.app/)
+- deploy - [frontend](https://frontend-gemini-api.vercel.app/)
 
 Licença
 
