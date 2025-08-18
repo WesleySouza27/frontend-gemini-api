@@ -29,7 +29,7 @@ const Register: React.FC = () => {
       setSuccess('Usuário cadastrado com sucesso!');
       timeoutRef.current = window.setTimeout(() => {
         setSuccess('');
-        navigate('/'); // rota de login
+        navigate('/'); 
       }, 2000);
     } catch {
       setLoading(false);
