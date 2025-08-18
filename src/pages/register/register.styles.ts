@@ -72,6 +72,6 @@ export const LinkStyled = styled.button`
   font-size: 1rem;
   margin-top: 0.5rem;
   &:hover {
-    color: #1d4ed8;
+    color: #4575faff;
   }
 `;
