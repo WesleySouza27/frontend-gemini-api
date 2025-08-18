@@ -1,69 +1,65 @@
-# React + TypeScript + Vite
+# Frontend — Gemini Chat
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Descrição
 
-Currently, two official plugins are available:
+- Frontend em React + TypeScript que consome a API Gemini (NestJS).
+- Funcionalidades principais: login/register com JWT, chat em tempo real via Socket.IO, histórico de mensagens, Redux Toolkit com persistência.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Pré-requisitos
 
-## Expanding the ESLint configuration
+- Node.js 18+ e npm
+- Backend Gemini (NestJS) rodando localmente ou disponível por URL
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Instalação e execução local
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+1. Clone o repositório e entre na pasta do frontend:
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+   - git clone <URL_DO_REPOSITORIO_FRONTEND>
+   - cd c:\Users\USER\Desktop\desafio_vaga_growdev\frontend-gemini-api
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+2. Instale dependências:
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+   - npm install
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+3. Configure variáveis de ambiente:
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+   - Crie um arquivo `.env` na raiz com as URLs do backend, por exemplo:
+     VITE_API_URL=http://localhost:3030
+     VITE_SOCKET_URL=http://localhost:3030
+
+4. Rodar em modo desenvolvimento:
+
+   - npm run dev
+   - Abrir http://localhost:5173
+
+5. Build para produção:
+
+   - npm run build
+
+6. Servir build localmente (preview):
+   - npm run preview
+
+Principais tecnologias
+
+- Vite + React + TypeScript
+- Redux Toolkit + redux-persist
+- socket.io-client (WebSocket)
+- Axios
+- Styled Components
+- Material UI (MUI)
+
+Arquivos relevantes
+
+- src/main.tsx — entrada da aplicação
+- src/routes — definição de rotas e proteção
+- src/pages/login, src/pages/register — telas de autenticação
+- src/pages/Chat — componente de chat (Socket.IO + histórico)
+- src/services/api.ts — instância axios e interceptor de Authorization
+
+- Author - [Wesley Souza](https://www.linkedin.com/in/wesley-souza-/)
+
+- deploy projeto - [](https://app-mentorize-three.vercel.app/)
+
+Licença
+
+- Projeto privado.
