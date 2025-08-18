@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../../services/api';
 import { Container, Form, Input, Button, LinkStyled } from './register.styles';
@@ -8,15 +8,31 @@ const Register: React.FC = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const [success, setSuccess] = useState('');
+  const [loading, setLoading] = useState(false);
+  const timeoutRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setLoading(true);
     try {
       await api.post('/user/register', { username, password });
-      alert('Usuário cadastrado com sucesso!');
-      navigate('/');
+      setSuccess('Usuário cadastrado com sucesso!');
+      timeoutRef.current = window.setTimeout(() => {
+        setSuccess('');
+        navigate('/'); 
+      }, 2000);
     } catch {
+      setLoading(false);
       setError('Erro ao cadastrar usuário');
     }
   };
@@ -39,7 +55,8 @@ const Register: React.FC = () => {
           onChange={e => setPassword(e.target.value)}
           required
         />
-        <Button type="submit">Cadastrar</Button>
+        <Button type="submit"> {loading ? 'Cadastrando...' : 'Cadastrar'}</Button>
+        {success && <span style={{ color: 'green' }}>{success}</span>}
         {error && <span style={{ color: 'red' }}>{error}</span>}
         <LinkStyled type="button" onClick={() => navigate('/')}>
           Já tem conta? Faça login
