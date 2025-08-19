@@ -9,6 +9,8 @@ Pré-requisitos
 
 - Node.js 18+ e npm
 - Backend Gemini (NestJS) rodando localmente ou disponível por URL
+- [Backend url](https://backend-api-gemini.onrender.com)
+- [backend repositório](https://github.com/WesleySouza27/backend-api-gemini)
 
 Instalação e execução local
 

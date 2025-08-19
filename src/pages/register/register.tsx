@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../../services/api';
-import { Container, Form, Input, Button, LinkStyled } from './register.styles';
+import { Container, Form, Input, Button, LinkStyled } from '../login/Login.styles';
 
 const Register: React.FC = () => {
   const [username, setUsername] = useState('');
