@@ -12,7 +12,7 @@ export const Form = styled.form`
   background: rgba(30, 30, 30, 0.95);
   padding: 2.5rem 2rem;
   border-radius: 18px;
-  box-shadow: 0 4px 32px 0 rgba(255, 102, 0, 0.15);
+  box-shadow: 0 4px 32px 0 rgba(255, 140, 0, 0.68);
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -66,12 +66,12 @@ export const Button = styled.button`
 export const LinkStyled = styled.button`
   background: none;
   border: none;
-  color: #2563eb;
+  color: rgb(255, 120, 0);
   text-decoration: underline;
   cursor: pointer;
   font-size: 1rem;
   margin-top: 0.5rem;
   &:hover {
-    color: #1d4ed8;
+    color: #fff;
   }
 `;
