@@ -25,6 +25,25 @@ const Register: React.FC = () => {
     setError('');
     setLoading(true);
     try {
+      if (!username || !password) {
+        setError('Por favor, preencha todos os campos');
+        setLoading(false);
+        return;
+      }
+
+      const response = await api.get(`/user/${username}`);
+      if (response.data.username === username) {
+        setError('Nome de usuário já existe');
+        setLoading(false);
+        return;
+      }
+
+      if (password.length < 6) {
+        setError('A senha deve ter pelo menos 6 caracteres');
+        setLoading(false);
+        return;
+      }
+
       await api.post('/user/register', { username, password });
       setSuccess('Usuário cadastrado com sucesso!');
       timeoutRef.current = window.setTimeout(() => {

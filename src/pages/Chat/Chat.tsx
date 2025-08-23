@@ -140,7 +140,7 @@ const Chat: React.FC = () => {
       <Main>
         <MessagesContainer>
           {messages.map((msg, idx) => (
-            <Message key={msg.id || idx} isBot={msg.isBot}>
+            <Message key={msg.id || idx} $isBot={msg.isBot}>
               {msg.isBot
                 ? <ReactMarkdown>{msg.content}</ReactMarkdown>
                 : msg.content}

@@ -113,10 +113,10 @@ export const MessagesContainer = styled.div`
   height: 100vh;
 `;
 
-export const Message = styled.div<{ isBot?: boolean }>`
-  align-self: ${({ isBot }) => (isBot ? 'flex-start' : 'flex-end')};
-  background: ${({ isBot, theme }) => (isBot ? theme.messageBot : theme.messageUser)};
-  color: ${({ isBot, theme }) => (isBot ? theme.messageBotText : '#fff')};
+export const Message = styled.div<{ $isBot?: boolean }>`
+  align-self: ${({ $isBot }) => ($isBot ? 'flex-start' : 'flex-end')};
+  background: ${({ $isBot, theme }) => ($isBot ? theme.messageBot : theme.messageUser)};
+  color: ${({ $isBot, theme }) => ($isBot ? theme.messageBotText : '#fff')};
   padding: 10px 10px 10px 10px;
   margin: 0 20px 50px 20px;
   border-radius: 18px;
